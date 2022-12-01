@@ -83,4 +83,31 @@ router.get('/stats', verifyTokenAndAdmin, async (req, res) => {
   }
 })
 
+router.post('/:id/edit-address', async (req, res) => {
+  const userId = req.params.id;
+  
+  const address = {
+    street: req.body.street,
+    apartment: req.body.apartment,
+    state: req.body.state,
+    country: req.body.country,
+    city: req.body.city,
+    zip: req.body.zip,
+    phone: req.body.phone
+  };
+  
+  try {
+    await User.findByIdAndUpdate(userId, {
+      $set : {"address": address}
+    });
+    
+    // const updatedUser = await user.save();
+    // console.log(address)
+    res.status(201).json(address);
+  } catch(err) {
+    res.status(500).json(err);
+  }
+
+})
+
 module.exports = router;

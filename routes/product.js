@@ -75,4 +75,30 @@ router.get('/', async (req, res) => {
   }
 })
 
+// ADD NEW REVIEW
+router.post('/:id/reviews', async (req, res, next) => {
+  const productId = req.params.id;
+  const product = await Product.findById(productId);
+  if (product) {
+    if (product.reviews.find((x) => x.firstName === req.body.firstName)) {
+      return res.status(400).send({message: 'You already submitted a review'});
+    }
+    const review = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      rating: Number(req.body.rating),
+      comment: req.body.comment
+    }
+    product.reviews.push(review);
+    product.numReviews = product.reviews.length;
+    product.rating = 
+      product.reviews.reduce((a, c) => c.rating + a, 0) / 
+      product.reviews.length;
+    const updatedProduct = await product.save();
+    res.status(201).json({review: updatedProduct.reviews[updatedProduct.reviews.length - 1]});
+  } else {
+    res.status(404).send({message: 'Product not found'});
+  }
+})
+
 module.exports = router;
