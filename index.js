@@ -13,6 +13,10 @@ const productRoute = require('./routes/product');
 const cartRoute = require('./routes/cart');
 const orderRoute = require('./routes/order');
 const emailRoute = require('./routes/email');
+const categoryRoute = require('./routes/category');
+const socialRoute = require('./routes/social');
+const bannerRoute = require('./routes/banner');
+const authorizeRoute = require('./routes/authorize');
 const cors = require('cors');
 app.use(cors());
 app.use(compression());
@@ -23,6 +27,10 @@ app.use('/api/products', productRoute);
 app.use('/api/carts', cartRoute);
 app.use('/api/orders', orderRoute);
 app.use('/api/email', emailRoute)
+app.use('/api/category', categoryRoute);
+app.use('/api/social', socialRoute);
+app.use('/api/banner', bannerRoute);
+app.use('/api/checkout', authorizeRoute);
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,

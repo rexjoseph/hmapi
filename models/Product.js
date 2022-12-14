@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const reviewSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
@@ -23,6 +24,11 @@ const ProductSchema = new mongoose.Schema({
   sustainability: { type: String },
   image: [ String ],
   categories: { type: Array },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   size: { type: Array },
   color: { type: Array },
   price: { type: Number, required: true },

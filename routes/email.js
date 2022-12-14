@@ -5,6 +5,11 @@ router.post('/signup', async (req, res) => {
   const email = req.body.email;
 
   try {
+    const foundEmail = await Esubscription.findOne({email: email});
+    
+    if (foundEmail) {
+      return res.status(500).send({message: 'Email already subscribed'});
+    }
     const subscriber = new Esubscription({
       email: email
     })

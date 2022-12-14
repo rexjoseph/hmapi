@@ -9,25 +9,30 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // REGISTER ROUTE
 router.post('/register', async (req, res) => {
+  const firstName = req.body.firstName[0];
+  const lastName = req.body.lastName[0];
+  const email = req.body.email[0];
+  const password = req.body.password[0];
+
   const newUser = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
     password: CryptoJS.AES.encrypt(
-      req.body.password,
+      password,
       process.env.PASS_SEC).toString()
   });
 
   try {
     const createdUser = await newUser.save();
     const msg = {
-      to: req.body.email, // user email address
+      to: email, // user email address
       from: { /* company friendly name & email address  */
         name: 'Hashingmart', email: 'help@hashingmart.com' 
       },
       templateId: process.env.WELCOME_TEMPLATE_ID,
       dynamic_template_data: { /* data object embedded in message */
-        firstName: req.body.firstName /* user' first name */
+        firstName: firstName /* user' first name */
       }
     }
     await sgMail.send(msg);
@@ -59,7 +64,7 @@ router.post('/login', async (req, res) => {
     const accessToken = jwt.sign({
       id: user._id,
       isAdmin: user.isAdmin
-    }, process.env.JWT_SEC, {expiresIn: "5"});
+    }, process.env.JWT_SEC, {expiresIn: "5d"});
 
     // do not send all information of the user
     const { password, ...others } = user._doc;

@@ -1,11 +1,14 @@
 const router = require('express').Router();
 const Product = require('../models/Product');
-const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('./verifyToken');
+const { 
+  verifyToken, 
+  verifyTokenAndAuthorization, 
+  verifyTokenAndAdmin 
+} = require('./verifyToken' );
 
 // MAKE NEW PRODUCT
-router.post('/', async (req, res) => {
+router.post('/', verifyTokenAndAdmin, async (req, res) => {
   const newProduct = new Product(req.body);
-
   try {
     const savedProduct = await newProduct.save();
     res.status(200).json(savedProduct);
@@ -42,9 +45,12 @@ router.delete('/:id', verifyTokenAndAdmin, async (req, res) => {
 
 // GET SINGLE PRODUCT
 router.get('/find/:id', async (req, res) => {
+  let cat = await Product.findById(req.params.id);
+  let related;
   try {
     const product = await Product.findById(req.params.id);
-    res.status(200).json(product);
+    related = await Product.find({_id: {$ne: req.params.id}, category: cat.category});
+    res.status(200).json({product, related});
   } catch (err) {
     res.status(500).json(err);
   }
@@ -87,6 +93,7 @@ router.post('/:id/reviews', async (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       rating: Number(req.body.rating),
+      header: req.body.header || req.body.comment.substring(0, 25),
       comment: req.body.comment
     }
     product.reviews.push(review);
