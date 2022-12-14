@@ -10,19 +10,12 @@ const reviewSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 const ProductSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
+  title: { type: String, required: true, unique: true },
+  description: { type: String, required: true },
   slug: { type: String },
   care_guide: { type: String },
   sustainability: { type: String },
-  image: [ String ],
+  images: [ String ],
   categories: { type: Array },
   userId: {
     type: Schema.Types.ObjectId,

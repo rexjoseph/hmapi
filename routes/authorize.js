@@ -107,10 +107,7 @@ router.post("/payment", async (req, res) => {
               billApartment: req.body.data.billApartment,
               billCity: req.body.data.billCity,
               billState: req.body.data.billState,
-              orderId: 12345,
-              totalQty: 1,
               totalCost: req.body.amount,
-              orderDate: 'today'
             }
           }
   
