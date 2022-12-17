@@ -50,6 +50,18 @@ router.get('/find/:userId', verifyTokenAndAdmin, async (req, res) => {
   }
 })
 
+// GET SPECIFIC ORDER
+router.get('/:id', verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id)
+    .populate({path: 'user', populate: {path: 'userId', model: 'User'}})
+    .populate({path: 'cart', populate: {path: 'productId', model: 'Product'}})
+    res.status(200).json(order);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
 // GET ALL ORDERS
 router.get('/', verifyTokenAndAdmin, async (req, res) => {
   try {
