@@ -55,7 +55,7 @@ router.get('/:id', verifyTokenAndAdmin, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
     .populate({path: 'user', populate: {path: 'userId', model: 'User'}})
-    .populate({path: 'cart', populate: {path: 'productId', model: 'Product'}})
+    .populate({path: 'cart', populate: {path: 'items', populate: {path: 'productId', model: 'Product'} }})
     res.status(200).json(order);
   } catch (err) {
     res.status(500).json(err);
@@ -69,6 +69,18 @@ router.get('/', verifyTokenAndAdmin, async (req, res) => {
     res.status(200).json(orders);
   } catch (err) {
     res.status(500).json(err);
+  }
+})
+
+// USER GET ALL ORDERS
+router.get('/user', async (req, res, next) => {
+  try {
+    allOrders = await Order.find({ 'user.userId': req.user.id })
+    .populate({path: 'cart', populate: {path: 'items', populate: {path: 'productId', model: 'Product'} }})
+    .sort({ createdAt: -1 }).limit(6)
+    res.status(200).json(allOrders);
+  } catch (err) {
+    res.status(500).json(err)
   }
 })
 

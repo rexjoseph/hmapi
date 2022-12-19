@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Cart = require('../models/Cart');
+const Discount = require('../models/Discount');
 const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('./verifyToken');
 
 // ADD TO CART
@@ -57,6 +58,29 @@ router.get('/', verifyTokenAndAdmin, async (req, res) => {
     res.status(200).json(carts);
   } catch (err) {
     res.status(500).json(err);
+  }
+})
+
+// ADD DISCOUNT TO DB
+router.post('/new-discount', verifyTokenAndAdmin, async (req, res) => {
+  const newDiscount = new Discount(req.body);
+  try {
+    const savedDiscount = await newDiscount.save();
+    res.status(200).json(savedDiscount);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+// GET DISCOUNT FROM DB
+router.get('/get-discount/:code', verifyToken, async (req, res) => {
+  // console.log(req.params.code)
+  let discountCode = req.params.code.toUpperCase();
+  try {
+    let foundDiscount = await Discount.findOne({ code: discountCode });
+    res.status(200).json(foundDiscount);
+  } catch (err) {
+    res.status(404).json(err);
   }
 })
 

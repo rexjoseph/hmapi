@@ -6,6 +6,11 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
+  isAffiliate: { type: Boolean, default: false },
+  isSubscribed: { type: Boolean, default: false },
+  activatedWelcomeBonus: { type: Boolean, default: false },
+  position: { type: String },
+  profilePhoto: { type: String },
   address: { type: Object },
   resetToken: String,
   resetTokenExpiration: Date

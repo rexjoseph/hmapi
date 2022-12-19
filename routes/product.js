@@ -51,7 +51,7 @@ router.get('/find/:slug', async (req, res) => {
   let related;
   try {
     const product = await Product.findOne({slug: slug});
-    related = await Product.find({slug: {$ne: slug}, category: cat.category});
+    related = await Product.find({slug: {$ne: slug}, categories: cat.categories});
     res.status(200).json({product, related});
   } catch (err) {
     res.status(500).json(err);
@@ -87,8 +87,8 @@ router.get('/', async (req, res) => {
 router.post('/:id/reviews', verifyToken, async (req, res, next) => {
   const productId = req.params.id;
   const product = await Product.findById(productId);
-  const userOrder = await Order.find({'user.userId': req.user.id, 'cart.productId': productId});
-
+  const userOrder = await Order.find({'user.userId': req.user.id, 'cart.items.productId': productId});
+  
   if (product) {
     if (product.reviews.find((x) => x.firstName === req.body.firstName)) {
       return res.status(400).send({message: 'You already submitted a review'});

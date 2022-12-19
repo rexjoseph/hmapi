@@ -13,7 +13,7 @@ const bannerSchema = new Schema(
     color: { type: String },
     textColor: { type: String },
     hoverColor: { type:  String },
-    target: {type: String }
+    target: { type: String }
   }, { timestamps: true }
 );
 

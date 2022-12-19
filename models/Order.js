@@ -8,17 +8,20 @@ const OrderSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
     userId: { type: Schema.Types.ObjectId, ref: 'User' }
   },
-  cart: [
-    {
-      productId: { type: Schema.Types.ObjectId, ref: 'Product' },
-      quantity: { type: Number, default: 1 },
-      price: { type: Number, default: 0 },
-      title: { type: String },
-      color: { type: String },
-      size: { type: String }
-    }
-  ],
-  amount: { type: Number, required: true },
+  cart: {
+    items: [
+      {
+        productId: { type: Schema.Types.ObjectId, ref: 'Product' },
+        quantity: { type: Number, default: 0 },
+        price: { type: Number, default: 0 },
+        title: { type: String },
+        color: { type: String },
+        size: { type: String }
+      }
+    ]
+  },
+  totalCost: { type: Number, default: 0, required: true },
+  totalQty: { type: Number, default: 0, required: true },
   address: { type: Object, required: false },
   paymentId: { type: String, required: true },
   trackingNum: { type: String },
