@@ -73,9 +73,9 @@ router.get('/', verifyTokenAndAdmin, async (req, res) => {
 })
 
 // USER GET ALL ORDERS
-router.get('/user', async (req, res, next) => {
+router.get('/user/:userId', async (req, res, next) => {
   try {
-    allOrders = await Order.find({ 'user.userId': req.user.id })
+    allOrders = await Order.find({ 'user.userId': req.params.userId })
     .populate({path: 'cart', populate: {path: 'items', populate: {path: 'productId', model: 'Product'} }})
     .sort({ createdAt: -1 }).limit(6)
     res.status(200).json(allOrders);
@@ -96,7 +96,7 @@ router.get('/income', verifyTokenAndAdmin, async (req, res) => {
       {
         $project: {
           month: { $month: "$createdAt" },
-          sales: "$amount"
+          sales: "$totalCost"
         },
       },
       {

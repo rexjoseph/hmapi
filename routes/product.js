@@ -47,11 +47,11 @@ router.delete('/:id', verifyTokenAndAdmin, async (req, res) => {
 // GET SINGLE PRODUCT
 router.get('/find/:slug', async (req, res) => {
   let slug = req.params.slug;
-  let cat = await Product.findOne({slug: slug});
+  let foundProduct = await Product.findOne({slug: slug});
   let related;
   try {
     const product = await Product.findOne({slug: slug});
-    related = await Product.find({slug: {$ne: slug}, categories: cat.categories});
+    related = await Product.find({slug: {$ne: slug}, categories: foundProduct.categories});
     res.status(200).json({product, related});
   } catch (err) {
     res.status(500).json(err);
