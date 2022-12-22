@@ -95,7 +95,7 @@ router.post("/payment", async (req, res) => {
             templateId: process.env.ORDER_TEMPLATE_ID,
             dynamic_template_data: {
               firstName: req.body.shipFirstName,
-              lastName: req.body.shipFirstName,
+              lastName: req.body.shipLastName,
               address: req.body.shipAddress.street,
               apartment: req.body.shipAddress.apartment,
               city: req.body.shipAddress.city,

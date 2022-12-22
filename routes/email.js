@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sgMail = require('@sendgrid/mail');
-const Esubscription = require('../models/esubscription');
-const EsubscriptionI = require('../models/esubscriptionI');
+const Esubscription = require('../models/Esubscription');
+const EsubscriptionI = require('../models/EsubscriptionI');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.post('/signup', async (req, res) => {

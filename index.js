@@ -19,6 +19,7 @@ const categoryRoute = require('./routes/category');
 const socialRoute = require('./routes/social');
 const bannerRoute = require('./routes/banner');
 const authorizeRoute = require('./routes/authorize');
+const announcementRoute = require('./routes/announcement');
 const Product = require('./models/Product');
 const Category = require('./models/Category');
 const cors = require('cors');
@@ -53,6 +54,7 @@ app.use('/api/category', categoryRoute);
 app.use('/api/social', socialRoute);
 app.use('/api/banner', bannerRoute);
 app.use('/api/checkout', authorizeRoute);
+app.use('/api/announcement', announcementRoute);
 
 let sitemap;
 app.get('/sitemap.xml', async function(req, res) {
