@@ -100,9 +100,6 @@ router.post('/:id/edit-address', async (req, res) => {
     await User.findByIdAndUpdate(userId, {
       $set : {"address": address}
     });
-    
-    // const updatedUser = await user.save();
-    // console.log(address)
     res.status(201).json(address);
   } catch(err) {
     res.status(500).json(err);
