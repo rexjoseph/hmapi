@@ -137,7 +137,7 @@ router.post("/payment", async (req, res) => {
                   .getErrorText()
             );
             // req.flash('errors', 'Your transaction was declined.')
-            return res.redirect('back');
+            res.status('500').json({message: 'Your transaction was declined'});
           }
         }
       } else {
@@ -147,7 +147,7 @@ router.post("/payment", async (req, res) => {
           response.getTransactionResponse().getErrors() != null
         ) {
           // req.flash('errors', 'The credit card has expired');
-          return res.redirect('back');
+          res.status(500).json({message: 'The credit card has expired'});
         } else {
           console.log(
             "Error Code: " + response.getMessages().getMessage()[0].getCode()
@@ -156,7 +156,7 @@ router.post("/payment", async (req, res) => {
             "Error message: " + response.getMessages().getMessage()[0].getText()
           );
           // req.flash('errors', 'Sorry, we encountered an error')
-          return res.redirect('back');
+          res.status(500).json({message: 'Sorry we encountered an error'});
         }
       }
     } else {
