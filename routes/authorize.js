@@ -5,6 +5,7 @@ const SDKConstants = require("authorizenet").Constants;
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+// PAYMENT ROUTE
 router.post("/payment", async (req, res) => {
   const { cc, cvv, expiry } = req.body.data;
 
