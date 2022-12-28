@@ -72,6 +72,32 @@ router.post('/new-discount', verifyTokenAndAdmin, async (req, res) => {
   }
 })
 
+// GET ALL DISCOUNTS IN DB
+router.get('/all-discounts', verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const discounts = await Discount.find()
+    res.status(200).json(discounts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+// UPDATE DISCOUNT
+router.put('/discount/:id', verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    const updatedDiscount = await Discount.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedDiscount);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
 // GET DISCOUNT FROM DB
 router.get('/get-discount/:code', verifyToken, async (req, res) => {
   // console.log(req.params.code)
@@ -81,6 +107,16 @@ router.get('/get-discount/:code', verifyToken, async (req, res) => {
     res.status(200).json(foundDiscount);
   } catch (err) {
     res.status(404).json(err);
+  }
+})
+
+// DELETE DISCOUNT
+router.delete('/discount/:id', verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    await Discount.findByIdAndDelete(req.params.id);
+    res.status(200).json('Discount deleted');
+  } catch (err) {
+    res.status(500).json(err);
   }
 })
 
