@@ -4,7 +4,7 @@ const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = requir
 
 // CREATE AN ORDER
 router.post('/', verifyToken, async (req, res) => {
-  const newOrder = new Order(req.body)
+  let newOrder = new Order(req.body)
 
   try {
     const savedOrder = await newOrder.save();
@@ -77,7 +77,7 @@ router.get('/user/:userId', async (req, res, next) => {
   try {
     allOrders = await Order.find({ 'user.userId': req.params.userId })
     .populate({path: 'cart', populate: {path: 'items', populate: {path: 'productId', model: 'Product'} }})
-    .sort({ createdAt: -1 }).limit(6)
+    .sort({ createdAt: -1 })
     res.status(200).json(allOrders);
   } catch (err) {
     res.status(500).json(err)
