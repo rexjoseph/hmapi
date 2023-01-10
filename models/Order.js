@@ -22,6 +22,7 @@ const OrderSchema = new mongoose.Schema({
   },
   totalCost: { type: Number, default: 0, required: true },
   totalQty: { type: Number, default: 0, required: true },
+  unitNumber: { type: Number },
   address: { type: Object, required: false },
   paymentId: { type: String, required: true },
   trackingNum: { type: String },
