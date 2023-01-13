@@ -7,6 +7,7 @@ const bannerSchema = new Schema(
     caption: { type: String },
     actionText: { type: String },
     image: { type: String },
+    mobileImage: { type: String },
     video: { type: Boolean, default: false },
     video_source: { type: String },
     poster: { type: String },
