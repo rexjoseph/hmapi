@@ -85,39 +85,10 @@ router.post("/payment", async (req, res) => {
       ) {
         if (response.getTransactionResponse().getMessages() != null) {
           // console.log(
-          //   "Successfully created transaction with Transaction ID: " +
-          //     response.getTransactionResponse().getTransId()
+          //   "Successfully created transaction with Transaction " +
+          //     response.getTransactionResponse().getMessages()
           // );
-          // const msg = {
-          //   to: req.body.email, // recipient email
-          //   from: { 
-          //     name: 'Hashingmart', email: 'help@hashingmart.com' 
-          //   },
-          //   templateId: process.env.ORDER_TEMPLATE_ID,
-          //   dynamic_template_data: {
-          //     firstName: req.body.shipFirstName,
-          //     lastName: req.body.shipLastName,
-          //     address: req.body.shipAddress.street,
-          //     apartment: req.body.shipAddress.apartment,
-          //     city: req.body.shipAddress.city,
-          //     state: req.body.shipAddress.state,
-          //     zip: req.body.shipAddress.zip,
-          //     billFirstName: req.body.data.billFirstName,
-          //     billLastName: req.body.data.billLastName,
-          //     billAddress: req.body.data.billStreet,
-          //     billApartment: req.body.data.billApartment,
-          //     billCity: req.body.data.billCity,
-          //     billState: req.body.data.billState,
-          //     totalCost: req.body.amount,
-          //   }
-          // }
-  
-          // await sgMail.send(msg, function(err, sent) {
-          //   if (err) {
-          //     console.log(err);
-          //   }
-          // })
-          res.status(200).json(response.getTransactionResponse().getTransId());
+          res.status(200).json({ transactionId: response.getTransactionResponse().getTransId(), paymentType: response.getTransactionResponse().accountType, accountNumber: response.getTransactionResponse().accountNumber });
         } else {
           console.log("Failed Transaction.");
           if (response.getTransactionResponse().getErrors() != null) {

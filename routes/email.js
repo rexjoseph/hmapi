@@ -4,6 +4,12 @@ const Esubscription = require('../models/Esubscription');
 const EsubscriptionI = require('../models/EsubscriptionI');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+const { 
+  verifyToken, 
+  verifyTokenAndAuthorization, 
+  verifyTokenAndAdmin 
+} = require('./verifyToken' );
+
 router.post('/signup', async (req, res) => {
   const email = req.body.email;
 
@@ -26,6 +32,12 @@ router.post('/signup', async (req, res) => {
 router.post('/signup/v2', async (req, res) => {
   const email = req.body.email;
   try {
+    const foundEmail = await EsubscriptionI.findOne({email: email});
+    
+    if (foundEmail) {
+      return res.status(500).send({message: 'Email already subscribed'});
+    }
+
     const newsubscriber = new EsubscriptionI({
       email: email
     })
@@ -55,6 +67,24 @@ router.get('/:subscriber/signup/success', async (req, res) => {
   try {
     const subscriber = await EsubscriptionI.findById(subscriberId);
     res.status(200).json(subscriber);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+router.get('/v1/all', verifyTokenAndAdmin, async (req, res,) => {
+  try {
+    const subscribers = await Esubscription.find().sort({ createdAt: -1 });
+    res.status(200).json(subscribers);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+router.get('/v2/all', verifyTokenAndAdmin, async (req, res,) => {
+  try {
+    const subscribers = await EsubscriptionI.find().sort({ createdAt: -1 });
+    res.status(200).json(subscribers);
   } catch (err) {
     res.status(500).json(err);
   }

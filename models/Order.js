@@ -25,6 +25,8 @@ const OrderSchema = new mongoose.Schema({
   unitNumber: { type: Number },
   address: { type: Object, required: false },
   paymentId: { type: String, required: true },
+  paymentType: { type: String },
+  paymentAccountNumber: { type: String },
   trackingNum: { type: String },
   shippingCompany: { type: String },
   trackingLink: { type: String },
