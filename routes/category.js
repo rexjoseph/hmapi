@@ -12,6 +12,7 @@ router.post('/', verifyTokenAndAdmin, async (req, res) => {
   const name = req.body.name;
   const icon = req.body.icon;
   const banner = req.body.banner;
+  const info = req.body.info;
   const slug = name.split(' ').join('-').toLowerCase();
 
   try {
@@ -19,6 +20,7 @@ router.post('/', verifyTokenAndAdmin, async (req, res) => {
       name: name,
       icon: icon,
       banner: banner,
+      info: info,
       slug: slug
     });
 
@@ -33,6 +35,16 @@ router.get('/all', async (req, res, next) => {
   try {
     const categories = await Category.find();
     res.status(200).json(categories);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+router.get('/:name', async (req, res, next) => {
+  const name = req.params.name;
+  try {
+    const category = await Category.findOne({name: name.toLowerCase()});
+    res.status(200).json(category);
   } catch (err) {
     res.status(500).json(err);
   }

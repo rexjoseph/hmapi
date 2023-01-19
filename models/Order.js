@@ -24,6 +24,7 @@ const OrderSchema = new mongoose.Schema({
   totalQty: { type: Number, default: 0, required: true },
   unitNumber: { type: Number },
   address: { type: Object, required: false },
+  discountCode: { type: String },
   paymentId: { type: String, required: true },
   paymentType: { type: String },
   paymentAccountNumber: { type: String },

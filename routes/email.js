@@ -35,7 +35,7 @@ router.post('/signup/v2', async (req, res) => {
     const foundEmail = await EsubscriptionI.findOne({email: email});
     
     if (foundEmail) {
-      return res.status(500).send({message: 'Email already subscribed'});
+      return res.status(500).json({message: 'Email already subscribed'});
     }
 
     const newsubscriber = new EsubscriptionI({
