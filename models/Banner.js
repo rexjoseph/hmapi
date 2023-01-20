@@ -10,6 +10,7 @@ const bannerSchema = new Schema(
     mobileImage: { type: String },
     video: { type: Boolean, default: false },
     video_source: { type: String },
+    mobile_video_source: { type: String },
     poster: { type: String },
     color: { type: String },
     textColor: { type: String },
