@@ -99,7 +99,7 @@ router.put('/discount/:id', verifyTokenAndAuthorization, async (req, res) => {
 })
 
 // GET DISCOUNT FROM DB
-router.get('/get-discount/:code', verifyToken, async (req, res) => {
+router.get('/get-discount/:code', async (req, res) => {
   // console.log(req.params.code)
   let discountCode = req.params.code.toUpperCase();
   try {
