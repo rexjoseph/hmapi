@@ -51,7 +51,8 @@ router.get('/find/:slug', async (req, res) => {
   let related;
   try {
     const product = await Product.findOne({slug: slug});
-    related = await Product.find({slug: {$ne: slug}, categories: foundProduct.categories});
+    related = await Product.find({slug: {$ne: slug}, categories: foundProduct.categories}).sort({ createdAt: -1 });
+    const reviews = product.reviews.sort(function(a, b){return b.createdAt - a.createdAt});
     res.status(200).json({product, related});
   } catch (err) {
     res.status(500).json(err);
@@ -66,15 +67,15 @@ router.get('/', async (req, res) => {
   try {
     let products;
     if (qLatest) {
-      products = await Product.find().sort({ createdAt: -1 }).limit(10)
+      products = await Product.find().sort({ createdAt: -1 })
     } else if (qCategory) {
       products = await Product.find({
         categories: {
           $in: [qCategory]
         }
-      })
+      }).sort({ createdAt: -1 })
     } else {
-      products = await Product.find();
+      products = await Product.find().sort({ createdAt: -1 });
     }
 
     res.status(200).json(products);
